@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.techassess.todolistapi.mapper.TaskMapper">
+
+    <resultMap id="TaskResultMap" type="com.techassess.todolistapi.model.Task">
+        <id property="id" column="id"></id>
+        <result property="userId" column="user_id"></result>
+        <result property="title" column="title"></result>
+        <result property="description" column="description"></result>
+        <result property="taskStatus" column="task_status"></result>
+        <result property="priority" column="priority"></result>
+        <result property="deadline" column="deadline"></result>
+        <result property="created_at" column="created_at"></result>
+        <result property="updated_at" column="updated_at"></result>
+    </resultMap>
+
+    <select id="getTasksByUserId" resultMap="TaskResultMap">
+        SELECT * FROM tasks WHERE user_id = #{userId}
+    </select>
+
+    <select id="checkTaskAvailability" resultType="boolean" parameterType="com.techassess.todolistapi.model.Task">
+        SELECT CASE WHEN COUNT(*) > 0 THEN true ELSE false END
+        FROM tasks
+        WHERE id = #{id}
+    </select>
+
+
+    <insert id="addNewTask" parameterType="com.techassess.todolistapi.model.Task" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tasks (user_id, title, description, status, priority, deadline)
+        VALUES (#{userId}, #{title}, #{description}, #{status}::task_status, #{priority}, #{deadline})
+    </insert>
+
+    <update id="updateTask">
+        UPDATE tasks
+        SET title = #{title},
+            description = #{description},
+            status = #{status}::task_status,
+            priority = #{priority},
+            deadline = #{deadline},
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+    </update>
+
+    
+    <delete id="deleteTask">
+        DELETE FROM tasks WHERE id = #{id}
+    </delete>
+
+</mapper>

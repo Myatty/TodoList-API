@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: ToDoListAPI
+  datasource:
+    url: jdbc:postgresql://localhost:5432/todolist_db
+    username: myatty
+    password: Lucifer123
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:drop.sql,classpath:schema.sql
+      data-locations: classpath:data.sql
+logging:
+  level:
+    root: INFO
+    org.mybatis: DEBUG
+    org.springframework.jdbc.core: DEBUG
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.techassess.todolistapi.model
+  configuration:
+    map-underscore-to-camel-case: true
