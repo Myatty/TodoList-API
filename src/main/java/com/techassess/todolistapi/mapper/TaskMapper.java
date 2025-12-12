@@ -9,9 +9,12 @@ import java.util.List;
 @Mapper
 public interface TaskMapper {
     List<Task> getTasksByUserId(@Param("userId") Long userId);
+    List<Task> getTasksByUserIdPaged(@Param("userId") Long userId,
+                                     @Param("pageSize") int pageSize,
+                                     @Param("offset") int offset);
     int addNewTask(Task task);
     int updateTask(Task task);
     boolean checkTaskAvailability(Long taskId);
-    int deleteTask(Long taskId);
-    Task getTaskById(Long taskId);
+    int deleteTaskById(Long taskId);
+    Task getTaskById(@Param("id") Long id);
 }

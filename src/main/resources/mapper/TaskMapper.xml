@@ -10,7 +10,7 @@
         <result property="userId" column="user_id"></result>
         <result property="title" column="title"></result>
         <result property="description" column="description"></result>
-        <result property="taskStatus" column="task_status"></result>
+        <result property="taskStatus" column="task_status" javaType="com.techassess.todolistapi.model.TaskStatus"/>
         <result property="priority" column="priority"></result>
         <result property="deadline" column="deadline"></result>
         <result property="createdAt" column="created_at"></result>
@@ -20,6 +20,15 @@
     <select id="getTasksByUserId" resultMap="TaskResultMap">
         SELECT * FROM tasks WHERE user_id = #{userId}
     </select>
+
+    <select id="getTasksByUserIdPaged" resultMap="TaskResultMap">
+        SELECT *
+        FROM tasks
+        WHERE user_id = #{userId}
+        ORDER BY created_at DESC
+            LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
 
     <select id="getTaskById" resultMap="TaskResultMap">
         SELECT * FROM tasks WHERE id = #{id}
@@ -40,7 +49,7 @@
         </selectKey>
     </insert>
 
-    <update id="updateTask">
+    <update id="updateTask" parameterType="com.techassess.todolistapi.model.Task">
         UPDATE tasks
         SET title = #{title},
             description = #{description},
@@ -52,7 +61,7 @@
     </update>
 
     
-    <delete id="deleteTask">
+    <delete id="deleteTaskById">
         DELETE FROM tasks WHERE id = #{id}
     </delete>
 
