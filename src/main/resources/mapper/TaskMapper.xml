@@ -13,12 +13,16 @@
         <result property="taskStatus" column="task_status"></result>
         <result property="priority" column="priority"></result>
         <result property="deadline" column="deadline"></result>
-        <result property="created_at" column="created_at"></result>
-        <result property="updated_at" column="updated_at"></result>
+        <result property="createdAt" column="created_at"></result>
+        <result property="updatedAt" column="updated_at"></result>
     </resultMap>
 
     <select id="getTasksByUserId" resultMap="TaskResultMap">
         SELECT * FROM tasks WHERE user_id = #{userId}
+    </select>
+
+    <select id="getTaskById" resultMap="TaskResultMap">
+        SELECT * FROM tasks WHERE id = #{id}
     </select>
 
     <select id="checkTaskAvailability" resultType="boolean" parameterType="com.techassess.todolistapi.model.Task">
@@ -27,10 +31,13 @@
         WHERE id = #{id}
     </select>
 
-
-    <insert id="addNewTask" parameterType="com.techassess.todolistapi.model.Task" useGeneratedKeys="true" keyProperty="id">
+    <insert id="addNewTask" parameterType="com.techassess.todolistapi.model.Task">
         INSERT INTO tasks (user_id, title, description, status, priority, deadline)
-        VALUES (#{userId}, #{title}, #{description}, #{status}::task_status, #{priority}, #{deadline})
+        VALUES (#{userId}, #{title}, #{description}, #{status}::task_status, #{priority}, #{deadline});
+
+        <selectKey keyProperty="id" resultType="long" order="AFTER">
+            SELECT currval('tasks_id_seq');
+        </selectKey>
     </insert>
 
     <update id="updateTask">

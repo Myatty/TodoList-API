@@ -22,23 +22,17 @@ public class TaskService {
         return taskMapper.getTasksByUserId(userId);
     }
 
-    public Task addNewTask(Task task){
+    public Task addNewTask(Task task) {
 
-        if (task.getStatus() == null) {
+        if (task.getStatus() == null)
             task.setStatus("PENDING");
-        }
 
-        if (task.getPriority() == null) {
+        if (task.getPriority() == null)
             task.setPriority(3);
-        }
 
-        int rows = taskMapper.addNewTask(task);
+        taskMapper.addNewTask(task);
 
-        if (rows == 1) {
-            return task;
-        } else {
-            throw new RuntimeException("Failed to insert task.");
-        }
+        return taskMapper.getTaskById(task.getId());
     }
 
     public Task updateTask(Task task){

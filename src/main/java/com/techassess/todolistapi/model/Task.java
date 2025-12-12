@@ -14,6 +14,6 @@ public class Task {
     private String status;
     private Integer priority;
     private LocalDateTime deadline;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

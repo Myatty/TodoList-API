@@ -13,4 +13,5 @@ public interface TaskMapper {
     int updateTask(Task task);
     boolean checkTaskAvailability(Long taskId);
     int deleteTask(Long taskId);
+    Task getTaskById(Long taskId);
 }
